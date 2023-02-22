@@ -1,0 +1,150 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%md\n## Streaming Demo: Apache Flink - Using SQL",
+      "user": "anonymous",
+      "dateUpdated": "2022-10-12T19:28:25+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h2>Streaming Demo: Apache Flink - Using SQL</h2>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1665602789959_1871698761",
+      "id": "paragraph_1644079724213_1071705746",
+      "dateCreated": "2022-10-12T19:26:29+0000",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:169",
+      "dateFinished": "2022-10-12T19:28:27+0000",
+      "dateStarted": "2022-10-12T19:28:25+0000"
+    },
+    {
+      "text": "%md\n#### Data pipeline: Kinesis Stream --> KDA and Apache Flink --> Kinesis Stream",
+      "user": "anonymous",
+      "dateUpdated": "2022-10-12T19:26:29+0000",
+      "progress": 0,
+      "config": {
+        "tableHide": false,
+        "editorSetting": {
+          "language": "markdown",
+          "editOnDblClick": true,
+          "completionKey": "TAB",
+          "completionSupport": false
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/markdown",
+        "fontSize": 9,
+        "editorHide": true,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "HTML",
+            "data": "<div class=\"markdown-body\">\n<h4>Data pipeline: Kinesis Stream &ndash;&gt; KDA and Apache Flink &ndash;&gt; Kinesis Stream</h4>\n\n</div>"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1665602789960_1859361410",
+      "id": "paragraph_1644419083868_1242358902",
+      "dateCreated": "2022-10-12T19:26:29+0000",
+      "status": "READY",
+      "$$hashKey": "object:170"
+    },
+    {
+      "text": "%flink.ssql\n\n/*Option 'IF NOT EXISTS' can be used, to protect the existing Schema */\nDROP TABLE IF EXISTS ecomm_user_activity_stream_1;\n\nCREATE TABLE ecomm_user_activity_stream_1 (\n  `event_time` VARCHAR(30), \n  `event_type` VARCHAR(30), \n  `product_id` BIGINT, \n  `category_id` BIGINT, \n  `category_code` VARCHAR(30), \n  `brand` VARCHAR(30), \n  `price` DOUBLE, \n  `user_id` BIGINT, \n  `user_session` VARCHAR(30),\n  `txn_timestamp` TIMESTAMP(3),\n  WATERMARK FOR txn_timestamp as txn_timestamp - INTERVAL '10' SECOND  \n)\nPARTITIONED BY (category_id)\nWITH (\n  'connector' = 'kinesis',\n  'stream' = 'ecommerce-raw-user-activity-stream-1',\n  'aws.region' = 'us-east-1',\n  'scan.stream.initpos' = 'LATEST',\n  'format' = 'json',\n  'json.timestamp-format.standard' = 'ISO-8601'\n);\n\n\n/*Option 'IF NOT EXISTS' can be used, to protect the existing Schema */\nDROP TABLE IF EXISTS ecomm_user_activity_stream_2;\n\nCREATE TABLE ecomm_user_activity_stream_2 (\n  `user_id` BIGINT, \n  `num_actions_per_watermark` BIGINT\n)\nWITH (\n  'connector' = 'kinesis',\n  'stream' = 'ecommerce-raw-user-activity-stream-2',\n  'aws.region' = 'eu-west-1',\n  'format' = 'json',\n  'json.timestamp-format.standard' = 'ISO-8601'\n);\n\n/* Inserting aggregation into Stream 2*/\ninsert into ecomm_user_activity_stream_2\nselect  user_id, count(1) as num_actions_per_watermark\nfrom ecomm_user_activity_stream_1\ngroup by tumble(txn_timestamp, INTERVAL '10' SECOND), user_id\nhaving count(1) > 1;\n",
+      "user": "anonymous",
+      "dateUpdated": "2022-10-12T19:51:46+0000",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "sql",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/sql",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {},
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Table has been dropped.\nTable has been created.\nTable has been dropped.\nTable has been created.\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1665602789960_2041678241",
+      "id": "paragraph_1644099104676_1577171503",
+      "dateCreated": "2022-10-12T19:26:29+0000",
+      "status": "FINISHED",
+      "$$hashKey": "object:171",
+      "dateFinished": "2022-10-12T19:39:04+0000",
+      "dateStarted": "2022-10-12T19:38:20+0000"
+    }
+  ],
+  "name": "sql-flink-ecomm-notebook-1",
+  "id": "2HFDAA9HY",
+  "defaultInterpreterGroup": "flink",
+  "version": "0.9.0",
+  "noteParams": {
+    "kda.deploy-as-application.app-name": "ecomm-streaming-app-v1-sql-flink-ecomm-notebook-1-2HFDAA9HY"
+  },
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/sql-flink-ecomm-notebook-1"
+}
