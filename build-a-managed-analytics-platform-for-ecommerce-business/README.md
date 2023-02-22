@@ -24,7 +24,7 @@ The `Batch processing` will involve data ingestion, Lake House architecture, pro
 
 The `Real-time processing` involves detecting Distributed denial of service (DDoS) and Bot attacks using AWS Lambda, DynamoDB, CloudWatch, and AWS SNS.
 
-![Img1](/img/img1.png)
+![Img1](img/img1.png)
 
 This is the first part of the blog series, where we will focus on the **Real-time processing** data pipeline. 
 
@@ -50,7 +50,7 @@ And then this `stream2` will trigger an AWS Lambda function which will send an A
 
 So, the architecture would look like this. 
 
-![Img1](/img/img2.png)
+![Img1](img/img2.png)
 
 **Batch Processing** 
 
@@ -64,7 +64,7 @@ Now we can have the `raw` incoming data on Amazon S3, and we can use AWS Glue to
 
 At last we would leverage Amazon QuickSight to build a dashboard for visualization.  
 
-![Img1](/img/img3.png)
+![Img1](img/img3.png)
 
 ## Step by step walk through
 
@@ -89,7 +89,7 @@ mkdir dataset
 
 Download the dataset from [here]((https://www.kaggle.com/datasets/mkechinov/ecommerce-behavior-data-from-multi-category-store)) and move the downloaded `2019-Nov.csv.zip` under the `dataset` folder  
 
-![img](/img/img4.png)
+![img](img/img4.png)
 
 Now, lets unzip the file and create a sample version of the dataset by just taking the first `1000` records from the file. 
 
@@ -125,17 +125,17 @@ Now, lets create the first Kinesis data stream which we will be using as the inc
 - Go to **Amazon Kinesis** 
 - Click on **Create data stream** 
 
-![](/img/img5.png)
+![](img/img5.png)
 
 - Put `ecommerce-raw-user-activity-stream-1` as the Data stream name
 - Click on **Create data stream** 
 
-![](/img/img6.png)
+![](img/img6.png)
 
 
 Lets create another Kinesis data stream which we are going to use later on. This time use the Data stream name as `ecommerce-raw-user-activity-stream-2` 
 
-![](/img/img7.png)
+![](img/img7.png)
 
 ### Start the e-commerce traffic 
 
@@ -182,22 +182,22 @@ Now, we will create an Amazon Kinesis Data Analytics Streaming Application. Open
 - Click on **Studio notebooks** 
 - Click on **Create Studio notebook**
 
-![](/img/img8.png)
+![](img/img8.png)
 
 - Use `ecomm-streaming-app-v1` as the **Studio notebook name** 
 - Under the **Permissions** section, click on `Create` to create an AWS Glue database, name the database as `my-db-ecomm` 
 -  Use the same database, `my-db-ecomm` from the dropdown 
 - Click on **Create Studio notebook** 
 
-![](/img/img9.png)
+![](img/img9.png)
 
 Now, select the `ecomm-streaming-app-v1` Studio notebook and click on **Open in Apache Zeppelin** 
 
-![](/img/img10.png)
+![](img/img10.png)
 
 Once the **Zeppelin Dashboard** come up, click on `Import note` and import the [notebook](/code/flink-app/sql-flink-ecomm-notebook-1.zpln)
 
-![](/img/img11.png)
+![](img/img11.png)
 
 Open the `sql-flink-ecomm-notebook-1` notebook. We are going to use this Zeppelin notebook to create a **Flink Application** but before that lets go over this notebook and see what are we doing in this `Flink SQL code`
 
@@ -267,11 +267,11 @@ Now, that we have our notebook imported, we can create the **Flink Application**
 
 - Click on `Actions for ecomm-streaming-app-v1` on the top right corner 
 
-![](/img/img12.png)
+![](img/img12.png)
 
 - Click on `Build sql-flink-ecomm-notebook-1` and then click on `Build and export`. It will compile all the code, will create a ZIP file and would store on S3 
 
-![](/img/img13.png)
+![](img/img13.png)
 
 - And now we can deploy that application by simply clicking on `Actions for ecomm-streaming-app-v1` on the top right corner 
 
@@ -279,19 +279,19 @@ Now, that we have our notebook imported, we can create the **Flink Application**
 
 - Scroll down and click on `Save changes` 
 
-![](/img/img14.png)
+![](img/img14.png)
 
 This is the power of **Kinesis Data Analytics** just from a simple Zeppelin Notebook we can create a real world application without any hindrance. 
 
 - Finally we can start the application by clicking on **Run**. It might take couple of minutes to start the application so please wait till we see **Status** as `Running` 
 
-![](/img/img15.png) 
+![](img/img15.png) 
 
 ### Alarming DDoS Attack 
 
 If we revisit our architecture, we will see that we are almost done with the **online processing**, the only thing which is pending is to create a Lambda function which will be triggered whenever there is a record enters the `ecommerce-raw-user-activity-stream-2` stream which will write that data to some **DynamoDB** table and can also send an **SNS** notification. 
 
-![](/img/img16.png) 
+![](img/img16.png) 
 
 Let's first build the code for the Lambda function 
 
@@ -314,32 +314,32 @@ Now, lets create the Lambda function
 - Open the **AWS Lambda** console 
 - Click on **Create function** button 
 
-![](/img/img17.png) 
+![](img/img17.png) 
 
 - Enter the Function name as `ecomm-detect-high-event-volume` 
 - Enter the Runtime as `Python 3.7`
 - Click on **Create function**  
 
-![](/img/img18.png) 
+![](img/img18.png) 
 
 Once the Lambda function is created we need to upload the code which we stored in Amazon S3. 
 
-![](/img/img19.png) 
+![](img/img19.png) 
 
 Provide the location of the Lambda code which we uploaded on Amazon S3 in the previous step and click on **Save**  
 
-![](/img/img20.png) 
+![](img/img20.png) 
 
 We need to provide adequate privileges to our Lambda function so that it can talk to Kinesis Data Streams, DynamoDB, CloudWatch and SNS. Lets now modify the IAM Role. 
 
 - Go to **Configuration** tab and them to **Permission** tab on the left
 - Click on the IAM Role 
 
-![](/img/img21.png) 
+![](img/img21.png) 
 
 Since this is just for this demo, we are adding Full Access, but its not at all recommended for production environment. We should always follow the least privilege principle. 
 
-![](/img/img22.png) 
+![](img/img22.png) 
 
 Lets create the a SNS Topic
 
@@ -349,7 +349,7 @@ Lets create the a SNS Topic
 - Provide the Name as `ecomm-user-high-severity-incidents` 
 - Click on **Create Topic** 
 
-![](/img/img24.png) 
+![](img/img24.png) 
 
 Lets create a DynamoDB table 
 
@@ -363,11 +363,11 @@ Lets create a DynamoDB table
     | `Partition Key`      | `ddb_partition_key` |
     | `Secondary Key`      | `ddb_sort_key` |
 
-![](/img/img25.png) 
+![](img/img25.png) 
 
 Now, we can add the environment variables which are needed for the Lambda Function 
 
-![](/img/img23.png) 
+![](img/img23.png) 
 
 Following are the environment variables:
 
@@ -379,11 +379,11 @@ Following are the environment variables:
 | `topic_arn`      | `<Your SNS Topic ARN>` |
 
 
-![](/img/img26.png) 
+![](img/img26.png) 
 
 ## Show time 
 
-![](/img/img27.png) 
+![](img/img27.png) 
 
 So, now we are all done with the implementation, and its time to start generating the traffic using the `python script` which we created earlier. 
 
@@ -413,17 +413,17 @@ We can also monitor this traffic using the **Apache Flink Dashboard**
 - Select the Application, `ecomm-streaming-app-v1-sql-flink-ecomm-notebook-1-2HFDAA9HY` 
 - Click on `Open Apache Flink dashboard` 
 
-![](/img/img28.png) 
+![](img/img28.png) 
 
 Once you are on the `Open Apache Flink dashboard`
 
 - Click on `Running Jobs` and then click on the `Job Name` which is running 
 
-![](/img/img29.png) 
+![](img/img29.png) 
 
 And finally we can also see all the details of the users which are classified as a DDoS attack by the Flink Application in the `DynamoDB` table. 
 
-![](/img/img30.png) 
+![](img/img30.png) 
 
 You can let the stimulator run for next 5-10 mins while you explore and monitor all the components we have build in this whole data pipeline. 
 
