@@ -203,7 +203,7 @@ Open the `sql-flink-ecomm-notebook-1` notebook. We are going to use this Zeppeli
 
 - First we are create a `table` for the incoming source of data (which is the `ecommerce-raw-user-activity-stream-1` incoming stream) 
 - Next we are creating another `table` for the filtered data (which is for the `ecommerce-raw-user-activity-stream-2` outgoing stream)
-- And finally we are putting the logic to stimulate the **DDoSS** attack. We are essentially looking into the last 10 seconds of the data and grouping that data by `user_id` and if we notice more than 5 records, we are taking that `user_id` and the no. of records and pushing it to the `ecommerce-raw-user-activity-stream-2` out going stream. Since we are working within a dummy environment, we can set the threshold record to any other number (not just 5, it could be anything), but the idea is to stimulate DDoS attack, and if we see same user (same `user_ud`) is adding/viewing/placing lets say, 5 products in last 10 seconds, we can assume its a DDoS/BOT attack, as it naturally not that feasible. We are hardcoding it just for this demo purpose, but in real world this might be coming dynamically from a configuration file.
+- And finally we are putting the logic to simulate the **DDoSS** attack. We are essentially looking into the last 10 seconds of the data and grouping that data by `user_id` and if we notice more than 5 records, we are taking that `user_id` and the no. of records and pushing it to the `ecommerce-raw-user-activity-stream-2` out going stream. Since we are working within a dummy environment, we can set the threshold record to any other number (not just 5, it could be anything), but the idea is to simulate DDoS attack, and if we see same user (same `user_ud`) is adding/viewing/placing lets say, 5 products in last 10 seconds, we can assume its a DDoS/BOT attack, as it naturally not that feasible. We are hardcoding it just for this demo purpose, but in real world this might be coming dynamically from a configuration file.
 
 
 
@@ -429,8 +429,8 @@ You can let the stimulator run for next 5-10 mins while you explore and monitor 
 
 ## Summary 
 
-In this blog post, we stimulate e-commerce shopping workload we used an eCommerce dataset to simulate the logs of user purchases, product views, cart history and the user’s journey on the online platform to create an Real time analytical platform .
+In this blog post, we simulate e-commerce shopping workload we used an eCommerce dataset to simulate the logs of user purchases, product views, cart history and the user’s journey on the online platform to create an Real time analytical platform .
 
-We used a `python` script to stimulate the real traffic using the dataset, used Amazon Kinesis as the incoming stream of data. And that data is being analyzed by Amazon Kinesis Data Analytics using Apache Flink using `SQL`, which involves detecting Distributed denial of service (DDoS) and bot attacks using AWS Lambda, DynamoDB, CloudWatch, and AWS SNS.
+We used a `python` script to simulate the real traffic using the dataset, used Amazon Kinesis as the incoming stream of data. And that data is being analyzed by Amazon Kinesis Data Analytics using Apache Flink using `SQL`, which involves detecting Distributed denial of service (DDoS) and bot attacks using AWS Lambda, DynamoDB, CloudWatch, and AWS SNS.
 
 In the second part of this blog series, we will dive deep and build the batch processing pipeline and build a dashboard using Amazon QuickSight, which will help us to get more insights about users. It will help us to know details like, who visits the ecommerce website more frequently, which are the top and bottom selling products, which are the top brands, and so on. 
