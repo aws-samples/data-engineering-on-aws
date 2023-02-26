@@ -12,6 +12,8 @@ In this two part blog series, we will build an e-commerce analytical platform wh
 - Batch Processing 
 - Online/Real-time Processing 
 
+You may like to refer to [this session](https://www.youtube.com/watch?v=DvCjIVcs9KA&t=16s&ab_channel=AWSEvents) for a video walk-through. 
+
 ![Img1](img/img1.png)
 
 **Batch Processing**  
@@ -48,7 +50,7 @@ This input `raw` stream of data will go into an **Amazon Kinesis Data Stream** (
 
 We are going to use **SQL** to build the `Apache Flink` application using **Amazon Kinesis Data Analytics** and hence, we would need a metadata store, for which we are going to use **AWS Glue** Data Catalog. 
 
-And then this `stream2` will trigger an AWS Lambda function which will send an Amazon SNS notification to the stakeholders and shall store the fraudulent transaction details in a DynamoDB table. The architecture would look like this: 
+And then this `stream2` will trigger an **AWS Lambda** function which will send an **Amazon SNS** notification to the stakeholders and shall store the fraudulent transaction details in a **DynamoDB** table. The architecture would look like this: 
 
 ![Img1](img/img2-1.png)
 
@@ -345,7 +347,7 @@ Since this is just for the demo, we are adding `Full Access`, but its **NOT** re
 
 ![](img/img22-1.png) 
 
-Let's create the a SNS Topic
+Let's create the a SNS Topic:
 
 - Open the **Amazon SNS** console 
 - Click on **Create Topic** 
@@ -355,7 +357,7 @@ Let's create the a SNS Topic
 
 ![](img/img24-1.png) 
 
-Let's create a DynamoDB table 
+Let's create a DynamoDB table:
 
 - Open the **Amazon DynamoDB** console 
 - Click on **Create table** 
