@@ -87,7 +87,7 @@ mkdir dataset
 
 ```
 
-Download the dataset from [here]((https://www.kaggle.com/datasets/mkechinov/ecommerce-behavior-data-from-multi-category-store)) and move the downloaded file (`2019-Nov.csv.zip`) under the `dataset` folder  
+Download the dataset from [here](https://www.kaggle.com/datasets/mkechinov/ecommerce-behavior-data-from-multi-category-store) and move the downloaded file (`2019-Nov.csv.zip`) under the `dataset` folder  
 
 ![img](img/img4.png)
 
