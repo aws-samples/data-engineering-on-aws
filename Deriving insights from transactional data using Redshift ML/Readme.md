@@ -1,6 +1,8 @@
 # **Overview:**
 This solution talks about how we can derive insights from transactional data residing in RDS MySQL by exporting the data to S3 and building ML model  using Redshift ML without building complex ETL pipelines and not disrupting the source RDS database. The use case considered for this solution is the Bank Marketing data from https://archive.ics.uci.edu/ml/datasets/bank+marketing. This is a classification problem, where the goal is to predict if the customer will  subscribe to a term deposit or not.
 
+Video recording of the demo is available at the following location: https://dofe88k1s0p2q.cloudfront.net/Full%20video.mp4
+
 The solution leverages the training and inference datasets of the following Redshift Immersion Lab: https://catalog.workshops.aws/redshift-immersion/en-US/lab17a
 
 **Prerequisites:** 
@@ -35,7 +37,7 @@ CREATE TABLE <db_name>.<training_table_name>(
    nr_employed numeric,
    y char(1) ) ;
    
-**Table definition of inference data:  ** 
+**Table definition of inference data:** 
 
 CREATE TABLE <db_name>.<inference_table_name>(
    age numeric,
