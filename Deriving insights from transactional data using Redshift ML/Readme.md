@@ -1,15 +1,16 @@
+# **Overview:**
 This solution talks about how we can derive insights from transactional data residing in RDS MySQL by exporting the data to S3 and building ML model  using Redshift ML without building complex ETL pipelines and not disrupting the source RDS database. The use case considered for this solution is the Bank Marketing data from https://archive.ics.uci.edu/ml/datasets/bank+marketing. This is a classification problem, where the goal is to predict if the customer will  subscribe to a term deposit or not.
 
 The solution leverages the training and inference datasets of the following Redshift Immersion Lab: https://catalog.workshops.aws/redshift-immersion/en-US/lab17a
 
-Prerequisites: 
+**Prerequisites:** 
 1/ Create IAM role with read and write access to S3. Attach it to the Redshift cluster. More details at https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ExportSnapshot.html#USER_ExportSnapshot.SetupIAMRole.
 
 2/ Create a symmetric encryption AWS KMS key for the server-side encryption. The KMS key will be used by the snapshot export task to set up AWS KMS server-side encryption when writing the export data to S3. The KMS key policy must include both the kms:Encrypt and kms:Decrypt permissions. More details at https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ExportSnapshot.html.
 
 3/ Create two RDS MySQL tables, one each for training and inference. For detailed steps on how to create RDS MySQL instance and connect using SQL client, please refer https://aws.amazon.com/getting-started/hands-on/create-mysql-db/.
 
-Table definition of training data:
+**Table definition of training data:**
 
 CREATE TABLE <db_name>.<training_table_name>(
    age numeric,
@@ -34,7 +35,7 @@ CREATE TABLE <db_name>.<training_table_name>(
    nr_employed numeric,
    y char(1) ) ;
    
-Table definition of inference data:   
+**Table definition of inference data:  ** 
 
 CREATE TABLE <db_name>.<inference_table_name>(
    age numeric,
@@ -71,7 +72,8 @@ LOAD DATA LOCAL INFILE '<path to inference_part4.csv' INTO TABLE test.bank_detai
 
 6/ Create Redshift provisioned cluster (RA3 2 node cluster preferred) or Redshift serverless endpoint (leave all to default). More details at https://docs.aws.amazon.com/redshift/latest/gsg/rs-gsg-sample-data-load-create-cluster.html (cluster).
 
-Solution execution steps:
+# **Solution execution steps:**
+   
 In this solution, the data from two tables created above will be exported to S3 by taking a manual snapshot of the RDS DB instance and exporting it to S3. Post that, the data will be copied to Redshift for adding a new row number column. This column will be used for selecting a subset of records from the training table for creating the model. This can be extended for other use cases such as joining with other tables, deriving new columns etc.
 
 1/ Navigate to RDS console, select the database instance and take DB Snapshot by selecting the database and choose Actions > Take snapshot
