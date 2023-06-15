@@ -1,6 +1,6 @@
 # Serverless Data Prep with Glue Interactive Sessions (from `SageMaker Studio`)
 
-This notebook demonstrates the ability to use Apache Spark using AWS Glue to do data prep with two different datasets in order to build an urban air quality predictor with Amazon SageMaker.
+This demo demonstrates the ability to use Apache Spark using AWS Glue to do data prep with two different datasets in order to build an urban air quality predictor with Amazon SageMaker.
 
 ![Intro](img/img1.png)
 
