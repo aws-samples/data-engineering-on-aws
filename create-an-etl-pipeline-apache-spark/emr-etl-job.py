@@ -18,11 +18,11 @@ def main():
 
     print(f"Total no. of records in the source data set is : {final_df.count()}")
 
-try:
-    final_df.write.mode('overwrite').parquet(S3_OUTPUT_DATA)
-    print('The cleaned data is uploaded')
-except:
-    print('Something went wrong, please check the logs :P')
+    try:
+        final_df.write.mode('overwrite').parquet(S3_OUTPUT_DATA)
+        print('The cleaned data is uploaded')
+    except:
+        print('Something went wrong, please check the logs :P')
 
 if __name__ == '__main__':
     main()
