@@ -1,16 +1,14 @@
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 
-S3_INPUT_DATA = '<YOUR_BUCKET_LOCATION_OF_RAW_DATA>'
-S3_OUTPUT_DATA = '<YOUR_BUCKET_LOCATION_OF_CLEANED_DATA>'
-
+S3_INPUT_DATA = 's3://<YOUR_BUCKET_LOCATION_OF_RAW_DATA>'
+S3_OUTPUT_DATA = 's3://<YOUR_BUCKET_LOCATION_OF_CLEANED_DATA>'
 
 def main():
-
     spark = SparkSession.builder.appName("My Demo ETL App").getOrCreate()
     spark.sparkContext.setLogLevel('ERROR')
 
-    # Spark Dataframe (Raw)- Transformation 
+    # Spark Dataframe (Raw) - Transformation 
     df = spark.read.option("Header", True).option("InferSchema", True).csv(S3_INPUT_DATA)
     
     replacements = {c:c.replace(' ','_') for c in df.columns if ' ' in c}
