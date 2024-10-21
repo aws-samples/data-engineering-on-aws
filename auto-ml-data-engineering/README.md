@@ -1,5 +1,8 @@
 # SageMaker Notebooks Data Engineering with SageMaker Canvas Auto ML
 
+## Authors:
+[Tanner Jones](https://github.com/Tjones1701)
+
 This project will discuss a continuation on from Lab 4 of the [Accelerate data engineering on AWS with Amazon Q Developer](https://catalog.us-east-1.prod.workshops.aws/workshops/2c7b3627-a1f8-4310-8e5b-211b306d10d9/en-US/lab4/sagemaker)
 
 ## Introduction
